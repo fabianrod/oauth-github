@@ -1,12 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import './login.scss';
-
 interface ILoginViewProps {
   isLogged: boolean,
 }
-function Login(props: ILoginViewProps) {
+
+interface IUser {
+  email: string,
+  password: string,
+}
+
+interface IUserViewProps {
+  user: {
+    name: string,
+    email: string,
+    password: string,
+  },
+  getUserData: () => void,
+}
+function Login({ user, getUserData }: IUserViewProps) {
+  const [userInput, setUserInput] = useState<IUser>({ email: '', password: '' });
+  const history = useHistory();
+
+  useEffect(() => {
+    getUserData();
+    // eslint-disable-next-line
+  },[]);
+
+  const handlerInput = (e: React.FormEvent<HTMLInputElement>) => {
+    setUserInput({
+      ...userInput,
+      [e.currentTarget.name] : e.currentTarget.value
+    })
+  }
+
+  const handlerAuth = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if(user.email === userInput.email && user.password === userInput.password) {
+      history.push('/github');
+    } else {
+      Swal.fire('Oops...', 'User does not exist', 'error');
+    }
+  };
   return (
     <div className="login-page">
       <Container className="login-container">
@@ -14,19 +51,19 @@ function Login(props: ILoginViewProps) {
         <Form>
           <Form.Group>
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control type="email" name="email" value={userInput.email} onChange={handlerInput} placeholder="Enter email" />
           </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
+          <Form.Group>
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control type="password" name="password" value={userInput.password} onChange={handlerInput} placeholder="Password" />
           </Form.Group>
           <Form.Group>
             <Form.Text className="text-muted">
               If you are new, you can <Link to="/signup">create an account here</Link>.
             </Form.Text>
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" onClick={handlerAuth}>
             Log In
           </Button>
         </Form>

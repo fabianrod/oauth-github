@@ -9,8 +9,7 @@ interface IUser {
   password: string,
 }
 
-function Signup () {
-
+function Signup (props: any) {
   const [user, setUser] = useState<IUser>({
     name: '',
     email: '',
@@ -22,8 +21,9 @@ function Signup () {
       [e.currentTarget.name] : e.currentTarget.value 
     });
   }
-  const submitForm = () => {
-    localStorage.setItem('userInfo', JSON.stringify(user));
+  const submitForm = async () => {
+    await localStorage.setItem('userInfo', JSON.stringify(user));
+    await props.history.push('/');
   }
   return (
     <div className="signup-page">
