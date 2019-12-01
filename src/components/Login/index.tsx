@@ -1,33 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
+import getUser from '../../api/user.api';
+import isLogged from '../../utils/user.utils';
 import Swal from 'sweetalert2';
 import './login.scss';
-interface ILoginViewProps {
-  isLogged: boolean,
-}
 
 interface IUser {
+  name?: string,
   email: string,
   password: string,
 }
 
-interface IUserViewProps {
-  user: {
-    name: string,
-    email: string,
-    password: string,
-  },
-  getUserData: () => void,
-}
-function Login({ user, getUserData }: IUserViewProps) {
+function Login() {
+  const [userDB, setUserDB] = useState<IUser>({ name: '', email: '', password: '' });
   const [userInput, setUserInput] = useState<IUser>({ email: '', password: '' });
   const history = useHistory();
 
   useEffect(() => {
-    getUserData();
-    // eslint-disable-next-line
+    isLogged()
+    .then(() => history.push('/github'))
+    .catch((err) => err);
+    // eslint-disable-next-line 
   },[]);
+
+  useEffect(() => {
+    getUser()
+    .then((response) => setUserDB({
+      ...userDB,
+      name: response.name,
+      email: response.email,
+      password: response.password,
+    }))
+    .catch(() => console.log());
+    // eslint-disable-next-line
+  },[])
+
+  
 
   const handlerInput = (e: React.FormEvent<HTMLInputElement>) => {
     setUserInput({
@@ -38,7 +47,8 @@ function Login({ user, getUserData }: IUserViewProps) {
 
   const handlerAuth = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if(user.email === userInput.email && user.password === userInput.password) {
+    if(userDB.email === userInput.email && userDB.password === userInput.password) {
+      localStorage.setItem('isLogged', 'true');
       history.push('/github');
     } else {
       Swal.fire('Oops...', 'User does not exist', 'error');
