@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Container, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import './github.scss';
@@ -16,6 +16,9 @@ function Github({ repositories, getRepositories }: IGithubPropsView) {
     localStorage.removeItem('isLogged');
     history.push('/');
   }
+  const githubOauth = () => {
+    window.location.href = 'https://github.com/login/oauth/authorize?client_id=ee81261b2f648ccb06d6&scope=user';
+  }
   return (
     <div className="page-github">
       <Container className="github-container">
@@ -25,7 +28,7 @@ function Github({ repositories, getRepositories }: IGithubPropsView) {
       </Container>
       <Container className="repositories-list">
         <h3>Method 1: Via Oauth</h3>
-        <Button className="primary">Get my list of repositories.</Button>
+        <Button className="primary" onClick={githubOauth}>Get my list of repositories.</Button>
       </Container>
       <Container className="repositories-list">
         <h3>Method 2: Find by name</h3>

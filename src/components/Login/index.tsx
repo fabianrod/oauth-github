@@ -12,7 +12,7 @@ interface IUser {
   password: string,
 }
 
-function Login() {
+function Login(props: any) {
   const [userDB, setUserDB] = useState<IUser>({ name: '', email: '', password: '' });
   const [userInput, setUserInput] = useState<IUser>({ email: '', password: '' });
   const history = useHistory();
