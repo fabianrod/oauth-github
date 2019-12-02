@@ -1,0 +1,24 @@
+.github-container {
+  margin-top: 20px;
+}
+
+.searchform {
+  display: flex;
+  max-width: 550px;
+  margin-top: 20px;
+  button {
+    width: 150px;
+    max-width: 150px;
+    margin-left: 20px;
+  }
+}
+
+.repositories-list {
+  margin-top: 20px;
+}
+
+.repository-info {
+  border: 1px solid #f2f2f2;
+  padding: 10px;
+  margin-bottom: 10px;
+}

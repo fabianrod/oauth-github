@@ -1,4 +1,4 @@
-import Types from '../types/user';
+import Types from '../types/github';
 
 const initialState = {
   data: [],
@@ -6,16 +6,17 @@ const initialState = {
 
 export default function (state: any = initialState, action: any) {
   switch (action.type) {
-    case Types.FETCH_USER_REQUEST:
+    case Types.FETCH_GITHUB_REQUEST:
       return {
         ...state,
+        username: action.username,
       };
-    case Types.FETCH_USER_SUCCEED:
+    case Types.FETCH_GITHUB_SUCCEED:
       return {
         ...state,
         data: action.payload,
       };
-    case Types.FETCH_USER_FAILURE:
+    case Types.FETCH_GITHUB_FAILURE:
       return {
         error: action.error,
       };

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import user from './user';
+import githubRepositories from './github';
 
 export default combineReducers({
-  user,
+  githubRepositories,
 });

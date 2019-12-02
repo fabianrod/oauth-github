@@ -21,9 +21,9 @@ function Signup (props: any) {
       [e.currentTarget.name] : e.currentTarget.value 
     });
   }
-  const submitForm = async () => {
-    await localStorage.setItem('userInfo', JSON.stringify(user));
-    await props.history.push('/');
+  const submitForm = () => {
+    localStorage.setItem('userInfo', JSON.stringify(user));
+    props.history.push('/');
   }
   return (
     <div className="signup-page">
